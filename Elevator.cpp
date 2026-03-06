@@ -65,6 +65,13 @@ class Elevator {
         
         std::cout << "De quel etage partez-vous ? : ";
         std::cin >> starting_floor;
+
+        while (starting_floor < m_lv_min || starting_floor > m_lv_max) {
+            std::cout << "Veuillez donner un etage disponible dans l'ascenseur. " << std::endl;
+            std::cout << "De quel etage partez-vous ? : ";
+            std::cin >> starting_floor;
+        }
+
         history_floor.push_back(starting_floor);
 
         while (want_to_use == true) {
@@ -77,14 +84,23 @@ class Elevator {
                 break;
             }
 
-            else if (arrival_floor == 400) {
+            if (arrival_floor == 400) {
                 HistoryView();
             }
 
-            while (starting_floor == arrival_floor) {
-                std::cout << "\nVeuillez entrer un etage different de l'actuel";
+            while (starting_floor == arrival_floor || arrival_floor < m_lv_min || arrival_floor > m_lv_max && arrival_floor != 500 && arrival_floor != 400) {
+                std::cout << "\nVeuillez entrer un etage different de l'actuel ou disponible dans l'ascenseur. ";
                 std::cout << "\nA quel etage voulez-vous aller ? (500 pour quitter, 400 pour l'historique) : ";
-                std::cin >> arrival_floor;  
+                std::cin >> arrival_floor;   
+
+                if (arrival_floor == 500) {
+                    want_to_use = false;
+                    break;
+                }
+
+                if (arrival_floor == 400) {
+                    HistoryView();
+                }
             }
 
             history_floor.push_back(arrival_floor);
